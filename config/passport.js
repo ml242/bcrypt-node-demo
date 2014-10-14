@@ -33,14 +33,14 @@ passport.deserializeUser(function(id, next){
 
 // strategies:
 var localStrategy = new LocalStrategy(
-    function(username, password, next){
-      User.findOne({username: username}, function(err, user){
-        if(err){
-          return next(err);
-        }
-        if(!user){
-          return next(null, false);
-        }
+  function(username, password, next){
+    User.findOne({username: username}, function(err, user){
+      if(err){
+        return next(err);
+      }
+      if(!user){
+        return next(null, false);
+      }
         // user matches a db doc
         user.comparePassword(password, 
           function(err, isMatch){
@@ -53,9 +53,21 @@ var localStrategy = new LocalStrategy(
               return next(null, false);
             }
           }
-        );
+          );
       });
-    }
+  }
   );
+// ensure authentication method
+module.exports = {
+  ensureAuthenticated: function(req, res, next){
+    if(req.isAuthenticated()){
+      return next();
+    } else {
+      res.redirect('/auth/login');
+    }
+  }
+};
+
+
 
 passport.use(localStrategy);

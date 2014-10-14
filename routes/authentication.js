@@ -26,4 +26,9 @@ router.post('/login', function(req, res, next){
   })(req, res, next);
 });
 
+router.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/auth/login');
+});
+
 module.exports = router;

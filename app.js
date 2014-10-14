@@ -45,6 +45,8 @@ app.use(passport.session());
 
 
 app.use('/auth', authentication);
+// middleware to prevent access to protect routes
+app.use(passportConfig.ensureAuthenticated);
 app.use('/', routes);
 app.use('/users', users);
 
